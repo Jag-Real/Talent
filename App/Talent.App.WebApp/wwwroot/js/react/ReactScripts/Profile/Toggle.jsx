@@ -24,7 +24,7 @@ export class Toggle extends React.Component {
                                 type="radio"
                                 value="true"
                                 onChange={this.update}
-                                checked={this.props.displayProfile == true}>
+                               checked={this.props.displayProfile == true}>
                             </input>
                             <label>Display profile</label>
                         </div>

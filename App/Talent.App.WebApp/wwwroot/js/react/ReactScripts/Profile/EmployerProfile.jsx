@@ -64,8 +64,10 @@ export default class EmployeeProfile extends React.Component {
                 let employerData = null;
                 if (res.employer) {
                     employerData = res.employer
-                    //console.log("employerData", employerData)
+                    console.log("employerData", res);
                 }
+
+
                 this.updateWithoutSave(employerData)
             }.bind(this),
             error: function (res) {
@@ -214,7 +216,9 @@ export default class EmployeeProfile extends React.Component {
                                         >
                                             <Toggle
                                                 updateStateData={this.updateWithoutSave}
-                                                displayProfile={this.state.employerData.displayProfile}
+                                                
+                                                displayProfile = { this.state.employerData.displayProfile }
+                                            
                                             />
                                         </FormItemWrapper>
                                         <div className="sixteen wide column">

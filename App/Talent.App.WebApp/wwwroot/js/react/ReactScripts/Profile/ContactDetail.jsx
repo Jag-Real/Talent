@@ -10,6 +10,7 @@ export class IndividualDetailSection extends Component {
             Object.assign({}, props.details)
             : {
                 firstName: "",
+                lastName: "",
                 email: "",
                 phone: ""
             }
@@ -26,7 +27,7 @@ export class IndividualDetailSection extends Component {
         this.renderEdit = this.renderEdit.bind(this)
         this.renderDisplay = this.renderDisplay.bind(this)
     }
-
+    
     openEdit() {
         const details = Object.assign({}, this.props.details)
         this.setState({
@@ -66,15 +67,28 @@ export class IndividualDetailSection extends Component {
     renderEdit() {
         return (
             <div className='ui sixteen wide column'>
-                <ChildSingleInput
-                    inputType="text"
-                    label="First Name"
+                <ChildSingleInput 
+                    inputType="text" 
+                    label="Fist Name"
                     name="firstName"
                     value={this.state.newContact.firstName}
+                    //disabled="disabled"
+                   // value={this.state.newContact.firstName + " " + this.state.newContact.lastName}
+                    //value={this.state.newContact.lastName}
                     controlFunc={this.handleChange}
                     maxLength={80}
                     placeholder="Enter your first name"
                     errorMessage="Please enter a valid first name"
+                />
+                <ChildSingleInput
+                    inputType="text"
+                    label="Last Name"
+                    name="lastName"
+                    value={this.state.newContact.lastName}
+                    controlFunc={this.handleChange}
+                    maxLength={120}
+                    placeholder="Enter your Last name"
+                    errorMessage="Please enter a valid Last name"
                 />
                 <ChildSingleInput
                     inputType="text"
@@ -107,6 +121,7 @@ export class IndividualDetailSection extends Component {
     renderDisplay() {
 
         let firstName = this.props.details ? `${this.props.details.firstName}` : ""
+        let lastName = this.props.details ? `${this.props.details.lastName}` : ""
         let email = this.props.details ? this.props.details.email : ""
         let phone = this.props.details ? this.props.details.phone : ""
 
@@ -114,7 +129,10 @@ export class IndividualDetailSection extends Component {
             <div className='row'>
                 <div className="ui sixteen wide column">
                     <React.Fragment>
-                        <p>Name: {firstName}</p>
+                        {/*<p>FirstName: {firstName}</p>*/}
+                        <p>Name: {firstName} {lastName}</p>
+                     {/* / <p>LastName: {lastName}</p>*/}
+                       {/* <p>FullName: {firstName} {lastName}</p>*/}
                         <p>Email: {email}</p>
                         <p>Phone: {phone}</p>
                     </React.Fragment>
@@ -150,7 +168,7 @@ export class CompanyDetailSection extends Component {
         this.renderEdit = this.renderEdit.bind(this)
         this.renderDisplay = this.renderDisplay.bind(this)
     }
-
+  
     openEdit() {
         const details = Object.assign({}, this.props.details)
         this.setState({
@@ -164,8 +182,10 @@ export class CompanyDetailSection extends Component {
             showEditSection: false
         })
     }
+    
 
     handleChange(event) {
+        
         const data = Object.assign({}, this.state.newContact)
         data[event.target.name] = event.target.value
         this.setState({
@@ -174,6 +194,8 @@ export class CompanyDetailSection extends Component {
     }
 
     saveContact() {
+        console.log(this.props.componentId)
+        console.log(this.state.newContact)
         const data = Object.assign({}, this.state.newContact)
         this.props.controlFunc(this.props.componentId, data)
         this.closeEdit()
@@ -184,7 +206,7 @@ export class CompanyDetailSection extends Component {
             this.state.showEditSection ? this.renderEdit() : this.renderDisplay()
         )
     }
-
+    
     renderEdit() {
         let location = { city: '', country: '' }
         if (this.state.newContact && this.state.newContact.location) {
@@ -195,13 +217,13 @@ export class CompanyDetailSection extends Component {
             <div className='ui sixteen wide column'>
                 <ChildSingleInput
                     inputType="text"
-                    label="Name"
+                    label="Company Name"
                     name="name"
                     value={this.state.newContact.name}
                     controlFunc={this.handleChange}
                     maxLength={80}
-                    placeholder="Enter your last name"
-                    errorMessage="Please enter a valid name"
+                    placeholder="Enter your company name"
+                    errorMessage="Please enter a valid company name"
                 />
                 <ChildSingleInput
                     inputType="text"
@@ -231,6 +253,7 @@ export class CompanyDetailSection extends Component {
             </div>
         )
     }
+   
 
     renderDisplay() {
 
@@ -251,7 +274,7 @@ export class CompanyDetailSection extends Component {
                         <p>Phone: {phone}</p>
                         <p> Location: {location.city}, {location.country}</p>
                     </React.Fragment>
-                    <button type="button" className="ui right floated teal button">Edit</button>
+                    <button type="button" className="ui right floated teal button" onClick={this.openEdit}>Edit</button>
                 </div>
             </div>
         )

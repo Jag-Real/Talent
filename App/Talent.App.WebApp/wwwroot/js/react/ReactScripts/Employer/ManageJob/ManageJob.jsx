@@ -43,11 +43,11 @@ export default class ManageJob extends React.Component {
         this.setState({ loaderData });//comment this
 
         //set loaderData.isLoading to false after getting data
-        //this.loadData(() =>
-        //    this.setState({ loaderData })
-        //)
+        this.loadData(() =>
+           this.setState({ loaderData })
+        )
         
-        //console.log(this.state.loaderData)
+        console.log(this.state.loaderData)
     }
 
     componentDidMount() {
@@ -55,9 +55,36 @@ export default class ManageJob extends React.Component {
     };
 
     loadData(callback) {
-        var link = 'http://localhost:51689/listing/listing/getSortedEmployerJobs';
+        var link = 'http://localhost:51689/listing/listing/getEmployerJobs';
         var cookies = Cookies.get('talentAuthToken');
+       console.log(link);
+
+
        // your ajax call and other logic goes here
+       
+            $.ajax({
+                url: link,
+                headers: {
+                    'Authorization': 'Bearer ' + cookies,
+                    'Content-Type': 'application/json'
+                },
+                type: "GET",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (res) {
+                    if (res.success == true) {
+                        res.jobData.jobDetails.startDate = moment(res.jobData.jobDetails.startDate);
+                        res.jobData.jobDetails.endDate = res.jobData.jobDetails.endDate ? moment(res.jobData.jobDetails.endDate) : null;
+                        res.jobData.expiryDate = res.jobData.expiryDate
+                            ? moment(res.jobData.expiryDate) > moment()
+                                ? moment(res.jobData.expiryDate) : moment().add(14, 'days') : null;
+                        this.setState({ jobData: res.jobData })
+                    } else {
+                        TalentUtil.notification.show(res.message, "error", null, null)
+                    }
+                }.bind(this)
+            })
+        
     }
 
     loadNewData(data) {
@@ -77,7 +104,7 @@ export default class ManageJob extends React.Component {
     render() {
         return (
             <BodyWrapper reload={this.init} loaderData={this.state.loaderData}>
-               <div className ="ui container">Your table goes here</div>
+               <div className ="ui container">List of Jobs</div>
             </BodyWrapper>
         )
     }

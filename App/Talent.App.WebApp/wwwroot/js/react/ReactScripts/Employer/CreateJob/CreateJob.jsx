@@ -61,6 +61,7 @@ export default class CreateJob extends React.Component {
 
     loadData() {
         //const root = "" 
+
         //var param = root.getAttribute('data-id');
         var param = this.props.match.params.id ? this.props.match.params.id : "";//workaround till we get Redux in to keep the page from breaking
         var copyJobParam = this.props.match.params.copyId ? this.props.match.params.copyId : "";
@@ -100,7 +101,7 @@ export default class CreateJob extends React.Component {
         console.log("date:", jobData.jobDetails.startDate);
         var cookies = Cookies.get('talentAuthToken');   
         $.ajax({
-            url: 'http://localhost:51689/listing/listing/createUpdateJob',
+            url: 'http://localhost:61771/listing/listing/createUpdateJob',
             headers: {
                 'Authorization': 'Bearer ' + cookies,
                 'Content-Type': 'application/json'
@@ -110,8 +111,10 @@ export default class CreateJob extends React.Component {
             data: JSON.stringify(jobData),
             success: function (res) {
                 if (res.success == true) {
-                    TalentUtil.notification.show(res.message, "success", null, null);
-                    window.location = "/ManageJobs";
+                    TalentUtil.notification.show(res.message, "success", _id, null);
+                    //window.location = "/ManageJobs";
+                   // console.log(res.message);
+                   
                    
                 } else {
                     TalentUtil.notification.show(res.message, "error", null, null)
@@ -137,7 +140,7 @@ export default class CreateJob extends React.Component {
                     <div className="ui container">
                         <div className="ui grid">
                             <div className="row">
-                                <div className="sixteen wide center aligned padded column">
+                                <div className="sixteen wide center alig ned padded column">
                                     <h1>Create Job</h1>
                                 </div>
                             </div>

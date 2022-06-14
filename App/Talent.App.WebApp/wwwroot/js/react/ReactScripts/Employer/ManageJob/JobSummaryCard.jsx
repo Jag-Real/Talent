@@ -18,7 +18,7 @@ export class JobSummaryCard extends React.Component {
     render() {
         return (
            
-            /*  <Card.Group itemsPerRow={3}>*/
+            
             
             <Card>
                     <Card.Content>

@@ -55,7 +55,7 @@ export default class ManageJob extends React.Component {
     };
 
     loadData(callback) {
-        var link = 'http://localhost:51689/listing/listing/getEmployerJobs';
+        var link = 'https://1talentservicestalent.azurewebsites.net/listing/listing/getEmployerJobs';
         var cookies = Cookies.get('talentAuthToken');
        //console.log(link);
 
@@ -85,7 +85,7 @@ export default class ManageJob extends React.Component {
                             loadJobs: res.myJobs
                         })
                         
-                        console.log("rececnt jobs", this.state.loadJobs);
+                        console.log("new jobs", this.state.loadJobs);
                     } else {
                         //TalentUtil.notification.show(res.message, "error", null, null)
                         console.log("error");
